@@ -68,9 +68,6 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ inputs.java_version }}
 
-      - name: Configure docker to use the gcloud command-line tool as a credential helper
-        run: gcloud auth configure-docker eu.gcr.io
-
       - name: Package & run tests with maven
         if: ${{ inputs.java_version }}
         run: mvn clean install --no-transfer-progress ${{ env.skip_tests }}
