@@ -25,9 +25,6 @@ on:
       cache_key:
         required: false
         type: string
-      coverage_file_path:
-        required: false
-        type: string
       dockerfile:
         required: false
         type: string
@@ -41,10 +38,6 @@ on:
     secrets:
       GH_TOKEN:
         required: true
-      GCP_SA_DIGDIR_FDK_GCR_KEY:
-        required: true
-      CODECOV_TOKEN:
-        required: false
 
 jobs:
   build:
