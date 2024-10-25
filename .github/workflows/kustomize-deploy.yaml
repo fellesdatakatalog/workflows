@@ -75,3 +75,15 @@ jobs:
           kustomize build > .build.yaml
           kubectl apply -f .build.yaml
           cat .build.yaml | yq 'select(.kind == "Deployment" or .kind == "Pod" or .kind == "ReplicaSet" or .kind == "StatefulSet")' | kubectl rollout status -f -
+
+      - name: Wait for Ingress IP Address
+        run: |
+          for i in {1..10}; do
+            IP_ADDRESS=$(kubectl get ingress ${{ inputs.app_name }} -n ${{ inputs.environment }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "")
+            if [ ! -z "$IP_ADDRESS" ]; then
+              echo "Ingress IP Address: $IP_ADDRESS"
+              break
+            fi
+            echo "Waiting for Ingress IP Address..."
+            sleep 10
+          done
